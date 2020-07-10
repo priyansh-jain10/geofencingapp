@@ -164,6 +164,8 @@ public class AddLocation extends FragmentActivity implements OnMapReadyCallback,
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onClick: Latitude is "+latLng.latitude);
+                Log.d(TAG, "onClick: Longitude is "+latLng.longitude);
                 Intent intent=new Intent(AddLocation.this,MapsActivity.class);
                 intent.putExtra("Latitude",latLng.latitude);
                 intent.putExtra("Longitude",latLng.longitude);
