@@ -29,9 +29,6 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.Objects;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
@@ -41,7 +38,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
     private int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002;
-    private final LatLng mylatlang = new LatLng(Double.valueOf(Objects.requireNonNull(getIntent().getStringExtra("Latitude"))), Double.valueOf(Objects.requireNonNull(getIntent().getStringExtra("Longitude"))));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +76,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e(TAG, "Can't find style. Error: ", e);
         }
         enableUserLocation();
-        handleMapLongClick(mylatlang);
 
     }
     private void enableUserLocation() {
@@ -96,7 +91,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-    Intent intent=getIntent();
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -104,6 +98,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //We have the permission
                 mMap.setMyLocationEnabled(true);
+                Intent intent=getIntent();
+                LatLng mylatlang=new LatLng(Double.valueOf(intent.getStringExtra("latitude")),Double.valueOf(intent.getStringExtra("longitude")));
+                handleMapLongClick(mylatlang);
             } else {
                 //We do not have the permission..
             }
@@ -111,6 +108,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == BACKGROUND_LOCATION_ACCESS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //We have the permission
+                Intent intent=getIntent();
+                LatLng mylatlang=new LatLng(Double.valueOf(intent.getStringExtra("latitude")),Double.valueOf(intent.getStringExtra("longitude")));
+                handleMapLongClick(mylatlang);
+                handleMapLongClick(mylatlang);
                 Toast.makeText(this, "You can add geofences...", Toast.LENGTH_SHORT).show();
             } else {
                 //We do not have the permission..
