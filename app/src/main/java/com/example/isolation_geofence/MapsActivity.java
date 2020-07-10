@@ -38,6 +38,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
     private int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002;
+    private double latitude;
+    private double longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +78,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e(TAG, "Can't find style. Error: ", e);
         }
         enableUserLocation();
-
+        Intent receiveintent=this.getIntent();
+        latitude=receiveintent.getDoubleExtra("Latitude",0);
+        longitude=receiveintent.getDoubleExtra("Longitude",0);
+        Toast.makeText(getApplicationContext(),latitude+" "+longitude,Toast.LENGTH_LONG).show();
+        LatLng mylatlng=new LatLng(latitude,longitude);
+        handleMapLongClick(mylatlng);
     }
     private void enableUserLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
